@@ -1,8 +1,12 @@
+import random
 from six.moves import queue
 from tqdm import tqdm, tqdm_notebook
 
 import torch
+from torch.autograd import Variable
+import pyro
 from pyro import poutine
+from pyro.distributions import Uniform
 from pyro.infer.abstract_infer import TracePosterior
 
 
@@ -90,3 +94,73 @@ class RejectionSampling(TracePosterior):
                 yield tr, tr.log_prob_sum()
 
         pbar.close()
+
+
+class MH(TracePosterior):
+    """
+    Initial implementation of MH MCMC
+
+    https://github.com/pyro-ppl/pyro/blob/76097a8e0d9463c151a8590ec286fde99e5597ba/examples/storyboard/mh.py
+    """
+    def __init__(self, model, guide=None, proposal=None, samples=10, lag=1, burn=0):
+        super(MH, self).__init__()
+        self.samples = samples
+        self.lag = lag
+        self.burn = burn
+        self.model = model
+        assert (guide is None or proposal is None) and \
+            (guide is not None or proposal is not None), \
+            "requires exactly one of guide or proposal, not both or none"
+        if guide is not None:
+            self.guide = lambda tr, *args, **kwargs: guide(*args, **kwargs)
+        else:
+            self.guide = proposal
+
+    def _traces(self, *args, **kwargs):
+        # initialize traces with a draw from the prior
+        old_model_trace = poutine.trace(self.model)(*args, **kwargs)
+        traces = []
+        t = 0
+        i = 0
+        while t < self.burn + self.lag * self.samples:
+            i += 1
+            # q(z' | z)
+            new_guide_trace = poutine.block(
+                poutine.trace(self.guide))(old_model_trace, *args, **kwargs)
+            # p(x, z')
+            new_model_trace = poutine.trace(
+                poutine.replay(self.model, new_guide_trace))(*args, **kwargs)
+            # q(z | z')
+            old_guide_trace = poutine.block(
+                poutine.trace(
+                    poutine.replay(self.guide, old_model_trace)))(new_model_trace,
+                                                                  *args, **kwargs)
+            # p(x, z') q(z' | z) / p(x, z) q(z | z')
+            logr = new_model_trace.log_pdf() + new_guide_trace.log_pdf() - \
+                old_model_trace.log_pdf() - old_guide_trace.log_pdf()
+            rnd = pyro.sample("mh_step_{}".format(i),
+                              Uniform(pyro.zeros(1), pyro.ones(1)))
+
+            if torch.log(rnd).data[0] < logr.data[0]:
+                # accept
+                t += 1
+                old_model_trace = new_model_trace
+                if t <= self.burn or (t > self.burn and t % self.lag == 0):
+                    yield (new_model_trace, new_model_trace.log_pdf())
+
+# Single-site
+def single_site_proposal(model):
+    def _fn(tr, *args, **kwargs):
+        choice_name = random.choice(
+            [s for s in tr.keys() if tr[s]["type"] == "sample"])
+        return pyro.sample(choice_name,
+                           tr[choice_name]["fn"],
+                           *tr[choice_name]["args"][0],
+                           **tr[choice_name]["args"][1])
+    return _fn
+
+
+class SingleSiteMH(MH):
+    def __init__(self, model, **kwargs):
+        super(SingleSiteMH, self).__init__(
+            model, guide=None, proposal=single_site_proposal(model), **kwargs)

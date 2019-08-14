@@ -10,7 +10,7 @@ from pyro import poutine
 
 import functools
 import uuid
-from pmc_infer import EnumerateSearch, RejectionSampling
+from pmc_infer import EnumerateSearch, RejectionSampling, SingleSiteMH
 
 def flip(p=0.5):
     return torch.distributions.Bernoulli(p).sample()
@@ -53,16 +53,29 @@ def Infer(model,
           draw_samples=False):
     """
     Pyro imitation of WebPPL's Infer operator.
+
+    WebPPL methods not yet implemented
+    - HMC (mostly done?)
+    - SMC
+    - incremental MH
+    - optimize: sgd, adagrad, rmsprop, adam
+    - variational (not in PMC or DIPPL)
+
+    Ref: https://github.com/probmods/webppl/blob/dev/docs/inference/methods.rst
     """
-    if posterior_method == 'enumerate':
+    method = posterior_method.lower()
+    if method == 'enumerate':
         posterior = EnumerateSearch(model, max_tries=num_samples, **posterior_kwargs)       # method: 'DFS' | 'BFS' 
-    elif posterior_method in ('forward', 'importance'):
+    elif method in ('forward', 'importance'):
         posterior = pyro.infer.Importance(model, num_samples=num_samples, **posterior_kwargs)
-    elif posterior_method.upper() == 'MCMC':
+    elif method == 'rejection':
+        posterior = RejectionSampling(model, num_samples=num_samples, **posterior_kwargs)
+    elif method == 'mh':
+        posterior = SingleSiteMH(model, samples=num_samples, **posterior_kwargs)
+    elif method == 'hmc':
+        # currently buggy
         kernel = pyro.infer.mcmc.HMC(model)
         posterior = pyro.infer.mcmc.MCMC(kernel, num_samples, **posterior_kwargs)  # warmup_steps, num_chains
-    elif posterior_method == 'rejection':
-        posterior = RejectionSampling(model, num_samples=num_samples, **posterior_kwargs)
     else:
         raise ValueError("Posterior method not defined for: {}".format(posterior_method))
         
