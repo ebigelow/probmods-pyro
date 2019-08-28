@@ -96,7 +96,7 @@ def Infer(model,
     Pyro imitation of WebPPL's Infer operator.
 
     WebPPL methods not yet implemented
-    - HMC (mostly done?)
+    - HMC (partially done)
     - SMC
     - incremental MH
     - optimize (variational): sgd, adagrad, rmsprop, adam
