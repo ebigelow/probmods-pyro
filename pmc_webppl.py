@@ -76,6 +76,29 @@ def viz(data, to_type=(lambda v: v), plot_args={}, title=""):
     plt.show()
 
 
+def viz_heatmap(d, plot_args={}):
+    """`d` should be a 2-dimensional distribution with integer values (ideally Categorical).
+    
+    Note: axis always start at 0, so plots may look weird
+          if all values in support are greater/less than 0
+    """
+    support = d.enumerate_support()
+    x = int(support[:, 0].max())
+    y = int(support[:, 1].max())
+    M = np.zeros((x+1, y+1))
+    
+    for coord in s:
+        x, y = coord.numpy()
+        M[x, y] = np.exp(d.log_prob(coord))
+
+    return plt.imshow(M, **plot_args)
+
+
+def viz_marginals(args):
+    # TODO - for models that return an array instead of a scalar
+    return
+
+
 def viz_table(args):
     # TODO
     return
