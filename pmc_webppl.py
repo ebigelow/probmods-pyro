@@ -67,7 +67,7 @@ def viz(data, to_type=(lambda v: v), plot_args={}, title=""):
         else:
             support = support.unique()
 
-        d = {to_type(s): float(data.log_prob(s).exp()) for s in support}
+        d = {to_type(s): float(data.log_prob(s.reshape(data.shape())).exp()) for s in support}
         plt.bar(*zip(*d.items()), **plot_args)
     else:
         raise ValueError("data must be list of samples or pyro.distributions.Distribution")
@@ -87,9 +87,9 @@ def viz_heatmap(d, plot_args={}):
     y = int(support[:, 1].max())
     M = np.zeros((x+1, y+1))
     
-    for coord in s:
+    for coord in support:
         x, y = coord.numpy()
-        M[x, y] = np.exp(d.log_prob(coord))
+        M[int(x), int(y)] = np.exp(d.log_prob(coord))
 
     return plt.imshow(M, **plot_args)
 
@@ -119,6 +119,7 @@ def Infer(model,
     Pyro imitation of WebPPL's Infer operator.
 
     WebPPL methods not yet implemented
+    - MH "drift kernels"   https://webppl.readthedocs.io/en/master/driftkernels.html
     - HMC (partially done)
     - SMC
     - incremental MH
@@ -139,6 +140,10 @@ def Infer(model,
         # currently buggy
         kernel = pyro.infer.mcmc.HMC(model)
         posterior = pyro.infer.mcmc.MCMC(kernel, num_samples, **posterior_kwargs)  # warmup_steps, num_chains
+    elif p_method in ("smc", "sequential"):
+        raise NotImplementedError()
+    elif p_method in ("optimize", "variational", "svi"):
+        raise NotImplementedError()
     else:
         raise ValueError("Posterior method not defined for: {}".format(posterior_method))
 

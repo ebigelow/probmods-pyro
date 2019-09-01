@@ -205,7 +205,9 @@ class SingleSiteMH(MH):
 
 class HashingMarginal(dist.Distribution):
     """
-    Inference in models that return a type that's not torch.Tensor; adopted from RSA example.
+    Inference in models that return a type that's not torch.Tensor; from RSA example.
+
+    Note: currently not tested or well integrated with the rest of pmc_infer/pmc_webppl.
 
     :param trace_dist: a TracePosterior instance representing a Monte Carlo posterior
     """
@@ -317,11 +319,40 @@ def EHMarginal(fn):
 
 class SequentialMonteCarlo(TracePosterior):
     """
-    TODO
+    TODO: unfinished, untested
 
     - https://github.com/pyro-ppl/pyro/blob/dev/pyro/infer/smcfilter.py
     - https://github.com/pyro-ppl/pyro/blob/dev/examples/smcfilter.py
     """
+
+    # IDEA: have wrapper model.step/guide.step and init functions, and require
+    #   that we get model/guides with an observations arg.
+    # With this wrapper, we'd then iterate through observations and have 
+    #   pyro.sample("smc_step_{}".format(i), ...) for each
     pass
+
+
+# class SimpleVariational(TracePosterior):
+#     """
+#     TODO
+
+#     """
+#     # ------------------------------------------------------------------------------------------------
+#     # https://github.com/pyro-ppl/pyro/blob/
+#     #    ce8f42b12ecd522e3ef7251e0d5f5175075a3fb4/examples/capture_recapture/cjs.py 
+#     #
+#     # we use poutine.block to only expose the continuous latent variables
+#     # in the models to AutoDiagonalNormal (all of which begin with 'phi'
+#     # or 'rho')
+#     def expose_fn(msg):
+#         return msg["name"][0:3] in ['phi', 'rho']
+
+#     # we use a mean field diagonal normal variational distributions (i.e. guide)
+#     # for the continuous latent variables.
+#     guide = AutoDiagonalNormal(poutine.block(model, expose_fn=expose_fn))
+#     # ------------------------------------------------------------------------------------------------
+
+
+#     pass
 
 
