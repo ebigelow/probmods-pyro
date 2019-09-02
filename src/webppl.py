@@ -141,8 +141,10 @@ def Infer(model,
         kernel = pyro.infer.mcmc.HMC(model)
         posterior = pyro.infer.mcmc.MCMC(kernel, num_samples, **posterior_kwargs)  # warmup_steps, num_chains
     elif p_method in ("smc", "sequential"):
+        # SequentialMonteCarlo
         raise NotImplementedError()
     elif p_method in ("optimize", "variational", "svi"):
+        # SimpleVariational
         raise NotImplementedError()
     else:
         raise ValueError("Posterior method not defined for: {}".format(posterior_method))
