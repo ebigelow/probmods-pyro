@@ -8,7 +8,7 @@ import pyro.distributions as dist
 import pyro.infer.mcmc
 from pyro import poutine
 
-from pmc_infer import memoize, EnumerateSearch, RejectionSampling, SingleSiteMH, HashingMarginal
+from infer import memoize, EnumerateSearch, RejectionSampling, SingleSiteMH, HashingMarginal
 
 
 def maybe_tensor(v):
