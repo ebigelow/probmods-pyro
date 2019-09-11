@@ -38,40 +38,45 @@ def factor(name, value):
     value = maybe_tensor(value)
     d = dist.Bernoulli(logits=value)
     pyro.sample(name, d, obs=torch.ones((value.size() or 1)))
-    
+
+
 def cond_var(name, value, normal_std=1e-7):
     return pyro.sample(name, dist.Normal(torch.tensor(value, dtype=torch.float), torch.tensor(normal_std)))
-    
+
+
 def condition(name, var, value=1.0, normal_std=1e-7):
     var = maybe_tensor(var)
     normal_std = maybe_tensor(normal_std)
     value = maybe_tensor(value)
     pyro.sample(name, dist.Normal(var, normal_std), obs=value)
-    
+
+
 def expectation(dist):
     return dist.mean
 
 
-def viz(data, to_type=(lambda v: v), plot_args={}, title=""):
-    """data is either Tensor/list of samples, or dist for which we enumerate samples and probs."""
-    if type(data) in (list, torch.Tensor):
+def viz(d, to_type=(lambda v: v), plot_args={}, title="", continuous=False):
+    """d is either Tensor/list of samples, or dist for which we enumerate samples and probs."""
+    if type(d) in (list, torch.Tensor):
         # Histogram of samples
-        data = [to_type(d) for d in data]
-        plt.hist(data, weights=np.ones(len(data))/float(len(data)), **plot_args)
+        d = sorted([to_type(d_) for d_ in d])
+        plt.hist(d, weights=np.ones(len(d))/float(len(d)), **plot_args)
 
-    elif isinstance(data, pyro.distributions.Distribution):
-        # Barchart of distribution support
-
-        support = data.enumerate_support()
+    elif isinstance(d, pyro.distributions.Distribution):
+        support = d.enumerate_support()
         if type(support) is list:
             support = torch.tensor(support, dtype=support[0].dtype)
         else:
             support = support.unique()
 
-        d = {to_type(s): float(data.log_prob(s.reshape(data.shape())).exp()) for s in support}
-        plt.bar(*zip(*d.items()), **plot_args)
+        probs = {to_type(s): float(d.log_prob(s.reshape(d.shape())).exp()) for s in support}
+        if continuous:
+            plt.plot(*zip(*sorted(probs.items())), **plot_args)
+        else:
+            # If categorical, barchart of distribution support
+            plt.bar(*zip(*probs.items()), **plot_args)
     else:
-        raise ValueError("data must be list of samples or pyro.distributions.Distribution")
+        raise ValueError("d must be list of samples or pyro.distributions.Distribution")
 
     plt.title(title)
     plt.show()
@@ -114,7 +119,7 @@ def Infer(model,
           posterior_kwargs={},
           marginal_method="empirical",
           marginal_kwargs={},
-          num_samples=int(1e5),
+          num_samples=int(1e3),
           draw_samples=False):
     """
     Pyro imitation of WebPPL's Infer operator.
