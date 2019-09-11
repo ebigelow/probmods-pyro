@@ -3,9 +3,7 @@
 
 ## Overview
 
-This is a work-in-progress project to translate [Probabilistic Models of Cognition](https://probmods.org) ([github](https://github.com/probmods/probmods2)) from [WebPPL](http://webppl.org/) to [Pyro](http://pyro.ai/).
-
-I started this project after reading [this post on the pyro.ai forum](https://forum.pyro.ai/t/how-to-begin-learning-probabilistic-programming/519) and feeling similarly overwhelmed by existing Pyro examples and documentation. This collection of notebooks might help audiences without much background in probabilistic programming start using Pyro, building basic knowledge of these powerful tools so readers can begin to apply them to more complex domains. 
+Work-in-progress project to translate [Probabilistic Models of Cognition](https://probmods.org) ([github](https://github.com/probmods/probmods2)) from [WebPPL](http://webppl.org/) to [Pyro](http://pyro.ai/). This collection of notebooks might help audiences without much background in probabilistic programming start using Pyro, building basic knowledge of these powerful tools so readers can begin to apply them to more complex domains. 
 
 A second Pyro project more akin to [DIPPL](http://dippl.org/) examining Pyro's implementation with something like [minipyro](https://github.com/pyro-ppl/pyro/blob/dev/examples/minipyro.py) seems a logical next step after this - though that book would diverge more from its WebPPL counterpart.
 
