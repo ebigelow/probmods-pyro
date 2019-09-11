@@ -84,7 +84,7 @@ Nothing here yet.
 
 ## Javascript <-> Python
 
-The physics examples are a bit tricky to implement natively in Python. I spent some time tinkering with pymunk and pygame, but had trouble getting examples to run in jupyter notebooks - which is essential for this project.
+The physics examples are a bit tricky to implement natively in Python. I spent some time exploring `pymunk` and `pygame` but had trouble getting examples to run in jupyter notebooks, essential for this project.
 
 Notebooks natively support `%%javascript` cells and you can pass data between python and js ([example](https://www.stefaanlippens.net/jupyter-custom-d3-visualization.html)), so a particularly convenient solution would be to load the [javascript libraries used in probmods](https://github.com/probmods/probmods2/tree/master/assets/js) directly and use these in the appropriate chapters.
 
