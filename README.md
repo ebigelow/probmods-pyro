@@ -30,9 +30,9 @@ tqdm >= 4.31.1
 
 ## PyroWebPPL
 
-We introduce a simple, minimal implementation of WebPPL operators using Pyro as a backend for key PPL functionality. Code for this implementation can be found in the `src` directory for this project.
+We introduce a simple, minimal implementation of WebPPL operators using Pyro as a backend for key PPL functionality. Code for this implementation can be found in the `webppl_pyro` directory for this project.
 
-The PyroWebPPL examples can serve as a stepping stone to learning Pyro. All readers are encouraged to explore `src/webppl.py` and `src/infer.py` to better understand Pyro. Adventurous readers may add breakpoints or print statements to the source code to examine pyro variables used (e.g. traces in MH inference) in the relatively trivial examples present in this book.
+The PyroWebPPL examples can serve as a stepping stone to learning Pyro. All readers are encouraged to explore `webppl_pyro/webppl.py` and `webppl_pyro/infer.py` to better understand Pyro. Adventurous readers may add breakpoints or print statements to the source code to examine pyro variables used (e.g. traces in MH inference) in the relatively trivial examples present in this book.
 
 
 
@@ -61,7 +61,7 @@ Nothing here yet.
 
 ## PyroWebPPL TODO
 
-### `src/infer.py`
+### `webppl_pyro/infer.py`
 - [x] MH
 - [ ] MH drift kernels
 - [ ] Sequential Monte Carlo (SMC)
@@ -69,7 +69,7 @@ Nothing here yet.
 - [ ] Use `HashingMarginal` and `viz_marginals` for functions that don't return `torch.Tensor` - needed for Ch. 10
 - [ ] reflectance/illumination example in ch 5 is slow
 
-### `src/webppl.py`
+### `webppl_pyro/webppl.py`
 - [ ] `marginalize`  (ch 6)
 - [ ] `posterior_predictive.MAP()`  (ch 6)
 - [ ] `correlation`  (ch 6)
