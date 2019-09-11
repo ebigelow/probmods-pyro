@@ -30,9 +30,9 @@ tqdm >= 4.31.1
 
 ## PyroWebPPL
 
-For this book, we introduce a basic, minimal implementation of WebPPL operators using Pyro as a backend for key PPL functionality. Code for this implementation can be found in the `src` directory for this project.
+We introduce a basic, minimal implementation of WebPPL operators using Pyro as a backend for key PPL functionality. Code for this implementation can be found in the `src` directory for this project.
 
-The PyroWebPPL examples in this book can serve as a stepping stone to learning Pyro. Readers are encouraged to explore `src/webppl.py` and `src/infer.py` to better understand Pyro. Adventurous readers may add breakpoints or print statements to the source code to examine pyro variables used in the relatively simple examples present in this book.
+The PyroWebPPL examples can serve as a stepping stone to learning Pyro. All readers are encouraged to explore `src/webppl.py` and `src/infer.py` to better understand Pyro. Adventurous readers may add breakpoints or print statements to the source code to examine pyro variables used in the relatively simple examples present in this book (e.g. traces in MH inference).
 
 
 
@@ -45,6 +45,7 @@ Contributions are welcome! See chapters and TODOs below for ideas.
 
 
 # Progress
+
 
 ## Chapters
 - **Done**: 1, 2 (missing physics sim), 3, 4
