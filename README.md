@@ -7,7 +7,7 @@ This is a work-in-progress project to translate [Probabilistic Models of Cogniti
 
 I started this project after reading [this post on the pyro.ai forum](https://forum.pyro.ai/t/how-to-begin-learning-probabilistic-programming/519) and feeling similarly overwhelmed by existing Pyro examples and documentation. This "book" might help audiences without much background in probabilistic programming start using Pyro, building basic knowledge of these powerful tools so readers can begin to apply them to more complex domains. 
 
-A second Pyro project more akin to [DIPPL](http://dippl.org/) examining Pyro's implementation with something like [minipyro](https://github.com/pyro-ppl/pyro/blob/dev/examples/minipyro.py) seems a logical next step after Probabilistic Models of Cognition - though that book would diverge more from its WebPPL counterpart.
+A second Pyro project more akin to [DIPPL](http://dippl.org/) examining Pyro's implementation with something like [minipyro](https://github.com/pyro-ppl/pyro/blob/dev/examples/minipyro.py) seems a logical next step after this - though that book would diverge more from its WebPPL counterpart.
 
 
 
@@ -18,7 +18,7 @@ A second Pyro project more akin to [DIPPL](http://dippl.org/) examining Pyro's i
 ```
 python >= 3.6
 
-pyro-ppl >= 0.3.3
+pyro-ppl >= 0.4.0
 jupyter
 matplotlib
 seaborn
@@ -30,9 +30,9 @@ tqdm >= 4.31.1
 
 ## PyroWebPPL
 
-We introduce a basic, minimal implementation of WebPPL operators using Pyro as a backend for key PPL functionality. Code for this implementation can be found in the `src` directory for this project.
+We introduce a simple, minimal implementation of WebPPL operators using Pyro as a backend for key PPL functionality. Code for this implementation can be found in the `src` directory for this project.
 
-The PyroWebPPL examples can serve as a stepping stone to learning Pyro. All readers are encouraged to explore `src/webppl.py` and `src/infer.py` to better understand Pyro. Adventurous readers may add breakpoints or print statements to the source code to examine pyro variables used in the relatively simple examples present in this book (e.g. traces in MH inference).
+The PyroWebPPL examples can serve as a stepping stone to learning Pyro. All readers are encouraged to explore `src/webppl.py` and `src/infer.py` to better understand Pyro. Adventurous readers may add breakpoints or print statements to the source code to examine pyro variables used (e.g. traces in MH inference) in the relatively trivial examples present in this book.
 
 
 
