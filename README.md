@@ -69,6 +69,7 @@ Contributions are welcome! See chapters and TODOs below for ideas.
 - [ ] `posterior_predictive.MAP()`  (ch 6)
 - [ ] `correlation`  (ch 6)
 - [ ] `viz_marginals`  (ch 4)
+- [ ] `viz_density`  (ch 5)
 - [x] `viz_heatmap` (ch 5)
 - [ ] `viz_scatter` (ch 5)  - maybe unnecessary
 

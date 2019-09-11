@@ -55,7 +55,7 @@ def expectation(dist):
     return dist.mean
 
 
-def viz(d, to_type=(lambda v: v), plot_args={}, title="", continuous=False):
+def viz(d, to_type=(lambda v: v), plot_args={}, title=""):
     """d is either Tensor/list of samples, or dist for which we enumerate samples and probs."""
     if type(d) in (list, torch.Tensor):
         # Histogram of samples
@@ -69,12 +69,9 @@ def viz(d, to_type=(lambda v: v), plot_args={}, title="", continuous=False):
         else:
             support = support.unique()
 
+        # Barchart of distribution support
         probs = {to_type(s): float(d.log_prob(s.reshape(d.shape())).exp()) for s in support}
-        if continuous:
-            plt.plot(*zip(*sorted(probs.items())), **plot_args)
-        else:
-            # If categorical, barchart of distribution support
-            plt.bar(*zip(*probs.items()), **plot_args)
+        plt.bar(*zip(*probs.items()), **plot_args)
     else:
         raise ValueError("d must be list of samples or pyro.distributions.Distribution")
 
