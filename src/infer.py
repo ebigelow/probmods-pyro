@@ -30,6 +30,7 @@ class EnumerateSearch(TracePosterior):
         self.max_tries = max_tries
 
         available_methods = ("BFS", "DFS", "best")
+        method = method.upper()
         if method not in available_methods:
             raise ValueError("Method must be one of: {}".format(avail_methods))
         self.search_method = method
