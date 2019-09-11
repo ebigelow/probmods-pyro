@@ -48,8 +48,7 @@ Contributions are welcome! See chapters and TODOs below for ideas.
 
 
 ## Chapters
-- **Done**: 1, 2 (missing physics sim), 3, 4
-- **In Progress**: 5
+- **Done**: 1, 2, 3, 4, 5  (physics sims missing in 2, 3 - see below)
 - **Draft Only**: 6, 7, 8, 9, 10
 - **Not Started**: 12, 13, 14, 15, 16
 
@@ -63,6 +62,7 @@ Contributions are welcome! See chapters and TODOs below for ideas.
 - [ ] Sequential Monte Carlo (SMC)
 - [ ] `'optimize'` (with SGD, Adam, ...)
 - [ ] Use `HashingMarginal` and `viz_marginals` for functions that don't return `torch.Tensor` - needed for Ch. 10
+- [ ] reflectance/illumination example in ch 5 is slow
 
 ### `src/webppl.py`
 - [ ] `marginalize`  (ch 6)
@@ -75,7 +75,6 @@ Contributions are welcome! See chapters and TODOs below for ideas.
 
 - [ ] Physics example (ch 2)
 - [ ] Drawing examples (ch 7)
-- [ ] Images for ch 4,5
 
 
 ## Javascript <-> Python
