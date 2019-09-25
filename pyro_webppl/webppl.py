@@ -51,8 +51,8 @@ def condition(name, var, value=1.0, normal_std=1e-7):
     pyro.sample(name, dist.Normal(var, normal_std), obs=value)
 
 
-def expectation(dist):
-    return dist.mean
+def expectation(d):
+    return d.mean if isinstance(d, dist.Distribution) else d.mean()
 
 
 def viz(d, to_type=(lambda v: v), plot_args={}, title=""):

@@ -47,7 +47,8 @@ Contributions are welcome! See chapters and TODOs below for ideas.
 
 ## Chapters
 - **Done**: 1, 2, 3, 4, 5  (physics sims missing in 2, 3 - see below)
-- **Draft Only**: 6, 7, 8, 9, 10
+- **In Progress**: 6
+- **Draft Only**: 7, 8, 9, 10
 - **Not Started**: 12, 13, 14, 15, 16
 
 
@@ -75,6 +76,7 @@ Nothing here yet.
 - [ ] `viz_density`  (ch 5)
 - [x] `viz_heatmap` (ch 5)
 - [ ] `viz_scatter` (ch 5)  - maybe unnecessary
+- [ ] unit tests
 
 - [ ] Physics example (ch 2)
 - [ ] Drawing examples (ch 7)
