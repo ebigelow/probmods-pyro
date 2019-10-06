@@ -147,9 +147,10 @@ class MH(TracePosterior):
         t = 0
         i = 0
 
-        pbar = tqdm(total=self.samples)  # progress bar
+        total_iters = self.burn + (self.lag * self.samples)
+        pbar = tqdm(total=total_iters)  # progress bar
 
-        while t < self.burn + (self.lag * self.samples):
+        while t < total_iters:
             i += 1
             pbar.set_description("Total samples: {}".format(i))
 
